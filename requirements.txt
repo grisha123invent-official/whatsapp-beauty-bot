@@ -1,0 +1,6 @@
+webwhatsapi
+openai
+gspread
+oauth2client
+python-dotenv
+pywhatkit 
