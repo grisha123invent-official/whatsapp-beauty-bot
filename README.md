@@ -48,6 +48,7 @@
 4. **Создайте файл .env и укажите переменные:**
    ```env
    OPENAI_API_KEY=sk-...ваш-ключ...
+   OPENAI_MODEL=gpt-5.6-terra  # необязательно, это значение по умолчанию
    EMAIL_USER=your_email@gmail.com
    EMAIL_PASS=your_email_password_or_app_password
    EMAIL_TO=receiver_email@example.com

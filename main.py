@@ -19,7 +19,7 @@ from webwhatsapi.objects.message import Message
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import openai
+from openai import OpenAI
 
 # Настройка логирования
 logging.basicConfig(
@@ -180,14 +180,15 @@ class WhatsAppBot:
                 {'role': 'system', 'content': GPT_SYSTEM_PROMPT},
             ] + history[-10:]  # последние 10 сообщений
 
-            # Запрос к OpenAI GPT
-            openai.api_key = os.getenv('OPENAI_API_KEY')
-            response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
+            # Запрос к OpenAI (gpt-3.5-turbo отключена 23.10.2026).
+            # Модель можно сменить через OPENAI_MODEL без правки кода.
+            # temperature убран: модели GPT-5.x могут его не поддерживать.
+            client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+            response = client.chat.completions.create(
+                model=os.getenv('OPENAI_MODEL', 'gpt-5.6-terra'),
                 messages=gpt_messages,
-                temperature=0.3,
             )
-            gpt_reply = response.choices[0].message['content']
+            gpt_reply = response.choices[0].message.content or ''
 
             # Добавляем ответ GPT в историю
             history.append({'role': 'assistant', 'content': gpt_reply})
